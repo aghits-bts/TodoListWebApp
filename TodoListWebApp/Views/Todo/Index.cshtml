@@ -1,0 +1,109 @@
+﻿@model IEnumerable<TodoListWebApp.Models.TodoModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Add new</a>
+</p>
+
+<form method="get", asp-controller="Todo", asp-action="Index">
+    <div class="form-group">
+        <label for="importance">Priority:</label>
+        <select id="importance" name="importance" class="form-control" asp-items="ViewBag.PriorityList">
+            <option value="">All</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="completed">Completed:</label>
+        <select id="completed" name="completed" class="form-control">
+            <option value="">All</option>
+            <option value="true">Completed</option>
+            <option value="false">Not Completed</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="category">Category:</label>
+        <select id="category" name="category" class="form-control" asp-items="ViewBag.CategoryList">
+            <option value="">All</option>
+            <option value="Home">Home</option>
+            <option value="School">School</option>
+            <option value="Work">Work</option>
+            <option value="Misc">Misc</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="searchString">Search:</label>
+        <input type="text" id="searchString" name="searchString" class="form-control" placeholder="Search by description" />
+    </div>
+
+    <div class="form-group">
+        <label for="dueDate">Due Date:</label>
+        <input type="date" id="dueDate" name="dueDate" class="form-control" />
+    </div>
+
+  
+
+    <div class="form-group">
+        <input type="submit" value="Filter" class="btn btn-primary"/>
+        <a asp-action="Index" class="btn btn-secondary">Clear</a>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Importance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Completed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DueDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            var itemClass = item.Completed ? "completed-item" : "";
+            <tr class="@itemClass">
+            <td>
+                @Html.DisplayFor(modelItem => item.Importance)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Completed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
